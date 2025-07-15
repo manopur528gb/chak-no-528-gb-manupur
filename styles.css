@@ -1,0 +1,362 @@
+﻿/* Updated styles.css */
+body {
+    font-family: 'Noto Nastaliq Urdu', 'Noto Naskh Arabic', sans-serif; /* نوری نستعلیق کو ترجیح */
+    direction: rtl; /* دائیں سے بائیں تحریر */
+    text-align: right; /* دائیں طرف الائنمنٹ */
+    margin: 0;
+    padding: 0;
+    background-color: #f0f8f0;
+    background-image: url('Images/phulkari-pattern.webp'); /* پھلکاری پیٹرن پس منظر */
+    background-size: 30%; /* مزید چھوٹا پیٹرن */
+    background-repeat: repeat; /* پیٹرن کو دہرائیں */
+    background-attachment: fixed;
+}
+
+header {
+    background-color: #1B5E20; /* گہرا سبز */
+    background-image: url('Images/placeholder_background.webp'); /* ہیڈر پس منظر */
+    background-size: cover;
+    background-position: center;
+    color: #FFD700; /* سنہری ٹیکسٹ */
+    text-align: center;
+    padding: 1em 0; /* ہیڈر کی پیڈنگ کم کی گئی */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative; /* سب ہیڈنگز کے لیے پوزیشننگ ریفرنس */
+}
+
+.logo {
+    width: 120px; /* لوگو کا سائز کم کیا گیا */
+    height: auto;
+    margin-bottom: 5px; /* مارجن کم کیا گیا */
+    order: 2; /* لوگو کو دائیں طرف رکھنے کے لیے آرڈر تبدیل کریں */
+}
+
+header h1 {
+    font-size: 2.2em; /* ہیڈنگ کا فونٹ سائز کم کیا گیا */
+    margin-top: 5px; /* مارجن ٹاپ کم کیا گیا */
+    margin-bottom: 0; /* مارجن باٹم ختم کیا گیا */
+}
+
+.subtitle {
+    font-size: 0.9em;
+    color: #FDD835;
+    margin-top: 5px;
+    margin-bottom: 10px;
+}
+
+nav {
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.1);
+    padding: 8px 0; /* نیویگیشن کی پیڈنگ کم کی گئی */
+    box-sizing: border-box;
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+nav ul li {
+    display: inline;
+    border-left: 1px solid #00BCD4;
+    padding: 0 8px; /* نیویگیشن آئٹمز کی پیڈنگ کم کی گئی */
+}
+
+nav ul li:first-child {
+    border-left: none;
+    padding-right: 0;
+}
+
+nav ul li:last-child {
+    padding-left: 0;
+}
+
+nav ul li a {
+    color: #FFD700;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s ease;
+    padding: 8px 12px; /* ٹچ ایریا بڑھانے کے لیے پیڈنگ */
+    border: 1px solid #00BCD4;
+    border-radius: 6px; /* گول کونے */
+}
+
+nav ul li a:hover {
+    color: #00BCD4;
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
+main {
+    max-width: 900px;
+    margin: 30px auto;
+    padding: 30px;
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.15);
+    font-size: 1.1em; /* ٹیکسٹ کا فونٹ سائز بڑھایا گیا */
+}
+
+section {
+    margin-bottom: 30px;
+    padding: 15px; /* سیکشنز میں ہلکی پیڈنگ */
+    background-color: #e0f7fa; /* ہلکا آسمانی بیک گراؤنڈ */
+    border-radius: 8px;
+}
+
+main h2 {
+    color: #1B5E20;
+    padding-bottom: 0; /* انڈر لائن ختم */
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-direction: row-reverse;
+}
+
+/* Section Icons Styling */
+.section-icon {
+    width: 28px; /* آئیکن کا سائز کم کیا گیا */
+    height: 28px; /* آئیکن کا سائز کم کیا گیا */
+    margin-left: 10px;
+    vertical-align: middle;
+    flex-shrink: 0;
+    fill: #1B5E20;
+}
+
+main img {
+    max-width: 100%;
+    height: auto; /* ہائیٹ آٹو پر سیٹ کریں تاکہ تناسب برقرار رہے */
+    object-fit: contain;
+    display: block;
+    margin: 15px auto; /* مارجن کم کیا گیا */
+    border-radius: 8px;
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+    background-color: #eee;
+    padding: 5px;
+}
+
+footer {
+    text-align: center;
+    padding: 1em 20px; /* فوٹر کی پیڈنگ کم کی گئی */
+    background-color: #1B5E20;
+    color: #FFD700;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
+    box-sizing: border-box;
+    font-size: 0.9em; /* فوٹر کا فونٹ سائز کم کیا گیا */
+}
+
+/* Footer Content Styling */
+.footer-content {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    max-width: 900px;
+    margin: 0 auto;
+    flex-wrap: wrap;
+}
+
+.footer-content p {
+    margin: 0;
+    order: 2;
+    margin-right: 10px; /* مارجن کم کیا گیا */
+    flex-shrink: 0;
+}
+
+.footer-photo {
+    width: 50px; /* فوٹر تصویر کا سائز کم کیا گیا */
+    height: 50px; /* فوٹر تصویر کا سائز کم کیا گیا */
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #FFD700;
+    order: 1;
+}
+
+/* Responsive adjustments for footer on smaller screens */
+@media (max-width: 600px) {
+    .footer-content {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .footer-content p, .footer-photo {
+        margin: 5px 0; /* مارجن کم کیا گیا */
+        order: unset;
+    }
+}
+
+/* Chatbot Styling */
+#chatbot {
+    position: fixed;
+    bottom: 30px;
+    left: 30px;
+    width: 320px;
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.25);
+    display: none;
+    overflow: hidden;
+    z-index: 1000;
+}
+
+#chatbot-header {
+    background-color: #00BCD4;
+    color: white;
+    padding: 12px; /* ہیڈر کی پیڈنگ کم کی گئی */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.chatbot-icon {
+    width: 40px; /* آئیکن کا سائز کم کیا گیا */
+    height: auto;
+    margin-right: 10px;
+}
+
+#chatbot-header h3 {
+    margin: 0;
+    flex-grow: 1;
+    font-size: 1em; /* ہیڈر ٹیکسٹ کا سائز کم کیا گیا */
+}
+
+#chatbot-body {
+    padding: 15px;
+}
+
+#chatbot-messages {
+    height: 200px; /* میسجز کی ہائیٹ کم کی گئی */
+    overflow-y: auto;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 10px; /* مارجن کم کیا گیا */
+    padding-bottom: 10px; /* پیڈنگ کم کی گئی */
+    direction: ltr;
+    text-align: left;
+}
+
+.chatbot-messages div {
+    margin-bottom: 6px; /* مارجن کم کیا گیا */
+    line-height: 1.3; /* لائن ہائیٹ کم کی گئی */
+    padding: 6px 10px; /* پیڈنگ کم کی گئی */
+    border-radius: 6px; /* بارڈر ریڈیس کم کیا گیا */
+    max-width: 80%;
+    word-wrap: break-word;
+    font-size: 0.95em; /* میسجز کا فونٹ سائز کم کیا گیا */
+}
+
+.chatbot-messages div:nth-child(even) {
+    background-color: #e0f7fa;
+    margin-right: auto;
+}
+
+.chatbot-messages div:nth-child(odd) {
+    background-color: #f1f8e9;
+    margin-left: auto;
+}
+
+#chatbot-input {
+    display: flex;
+}
+
+#user-input {
+    flex-grow: 1;
+    padding: 8px; /* ان پٹ فیلڈ کی پیڈنگ کم کی گئی */
+    border: 1px solid #ddd;
+    border-radius: 4px; /* بارڈر ریڈیس کم کیا گیا */
+    margin-right: 8px; /* مارجن کم کیا گیا */
+    font-size: 0.95em; /* ان پٹ فیلڈ کا فونٹ سائز کم کیا گیا */
+    direction: rtl;
+    text-align: right;
+}
+
+#send-message, #voice-input, #toggle-chatbot {
+    padding: 8px 12px; /* بٹنز کی پیڈنگ کم کی گئی */
+    background-color: #00BCD4;
+    color: white;
+    border: none;
+    border-radius: 4px; /* بارڈر ریڈیس کم کیا گیا */
+    cursor: pointer;
+    font-size: 0.95em; /* بٹنز کا فونٹ سائز کم کیا گیا */
+    transition: background-color 0.3s ease;
+}
+
+#send-message:hover, #voice-input:hover, #toggle-chatbot:hover {
+    background-color: #008AB8;
+}
+
+#open-chatbot {
+    position: fixed;
+    bottom: 20px; /* باٹم سے فاصلہ کم کیا گیا */
+    left: 20px; /* لیفٹ سے فاصلہ کم کیا گیا */
+    width: 100px; /* بڑا بٹن */
+    height: 100px; /* بڑا بٹن */
+    border-radius: 50%;
+    background-color: black; /* سیاہ بیک گراؤنڈ */
+    color: white;
+    border: none;
+    cursor: pointer;
+    z-index: 999;
+    display: flex;
+    flex-direction: column; /* آئیکن اور ٹیکسٹ کو اوپر نیچے رکھنے کے لیے */
+    justify-content: center;
+    align-items: center;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+    transition: background-color 0.3s ease;
+    font-size: 0.8em; /* ٹیکسٹ کا سائز */
+}
+
+#open-chatbot .open-chatbot-icon {
+    width: 50px; /* آئیکن کا سائز */
+    height: 50px; /* آئیکن کا سائز */
+    margin-bottom: 5px; /* آئیکن اور ٹیکسٹ کے درمیان فاصلہ */
+}
+
+#open-chatbot:hover {
+    background-color: #333; /* ہوور پر ہلکا سیاہ */
+}
+
+#toggle-chatbot {
+    background: none;
+    color: white;
+    padding: 5px;
+    margin-left: 10px;
+    font-size: 1em;
+    cursor: pointer;
+}
+
+/* چھوٹے سکرینوں کے لیے فوٹر نیویگیشن */
+@media (max-width: 768px) {
+    nav ul {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    nav ul li {
+        border-left: none;
+        border-top: 1px solid #00BCD4;
+        margin: 0;
+        padding: 0;
+    }
+    nav ul li:first-child {
+        border-top: none;
+    }
+    nav ul li a {
+        display: block;
+        padding: 10px;
+        border-radius: 0;
+        border: none;
+        border-bottom: 1px solid #00BCD4;
+    }
+    nav ul li a:last-child {
+        border-bottom: none;
+    }
+}
