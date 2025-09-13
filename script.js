@@ -1,177 +1,282 @@
-// نیویگیشن مینو ٹوگل
-function toggleMenu() {
-    const navMenu = document.getElementById('nav-menu');
-    navMenu.classList.toggle('active');
-}
+/* ===========================
+   script.js — Combined System for Manopur Village Website
+   - Integrates LightGallery, News, Calendar, and a smarter Chatbot
+   - Provides direct, contextual answers
+   - Comprehensive Q&A system with TTS and Speech Recognition support
+   =========================== */
 
-// سرچ فنکشن
-function searchContent() {
-    const input = document.getElementById('search-input').value.toLowerCase();
-    const sections = document.getElementsByTagName('section');
-    for (let section of sections) {
-        const text = section.innerText.toLowerCase();
-        section.style.display = text.includes(input) ? 'block' : 'none';
-    }
-}
-
-// لائٹ باکس کیلئے گیلری انیشیلیزیشن
+/* ---------- LightGallery Initialization ---------- */
 document.addEventListener('DOMContentLoaded', () => {
-    lightGallery(document.querySelector('.gallery'), {
-        speed: 500,
-        download: false
+    const galleryElements = document.querySelectorAll('[data-lightgallery="gallery"]');
+    galleryElements.forEach(element => {
+        lightGallery(element, {
+            thumbnail: true,
+            animateThumb: false,
+            showThumbByDefault: false
+        });
+    });
+
+    // Chatbot functionality
+    setupChatbot();
+    
+    // News and Calendar functionality
+    setupNews();
+    setupCalendar();
+    
+    // Navigation Menu Toggle
+    const hamburger = document.querySelector('.hamburger');
+    if (hamburger) {
+        hamburger.addEventListener('click', () => {
+            const menu = document.getElementById('nav-menu');
+            menu.classList.toggle('active');
+        });
+    }
+
+    // Scroll Animation
+    const sections = document.querySelectorAll('.animate-section');
+    const options = {
+        root: null,
+        threshold: 0.2,
+        rootMargin: "0px"
+    };
+    const observer = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, options);
+
+    sections.forEach(section => {
+        observer.observe(section);
     });
 });
 
-// کیلنڈر فنکشنز
-let currentMonth = new Date().getMonth();
-let currentYear = new Date().getFullYear();
+/* ---------- News and Calendar Functions ---------- */
+function setupNews() {
+    const addNewsBtn = document.getElementById('add-news-btn');
+    const newsInput = document.getElementById('news-input');
+    const newsList = document.getElementById('news-list');
+    
+    if (addNewsBtn && newsInput && newsList) {
+        addNewsBtn.addEventListener('click', () => {
+            if (newsInput.value.trim() !== '') {
+                const li = document.createElement('li');
+                li.textContent = newsInput.value;
+                newsList.appendChild(li);
+                newsInput.value = '';
+            }
+        });
+    }
+}
+
+let currentMonth = 8; // September 2025 (0-11)
+const months = ['جنوری', 'فروری', 'مارچ', 'اپریل', 'مئی', 'جون', 'جولائی', 'اگست', 'ستمبر', 'اکتوبر', 'نومبر', 'دسمبر'];
 
 function updateCalendar() {
-    const monthNames = ["جنوری", "فروری", "مارچ", "اپریل", "مئی", "جون", "جولائی", "اگست", "ستمبر", "اکتوبر", "نومبر", "دسمبر"];
-    document.getElementById('calendar-month').textContent = `${monthNames[currentMonth]} ${currentYear}`;
-    // ایونٹس کو دستی طور پر اپ ڈیٹ کریں (مثال کے طور پر)
-    const eventList = document.getElementById('event-list');
-    eventList.innerHTML = `
-        <li><strong>11 ${monthNames[currentMonth]}:</strong> ویب سائٹ کا حتمی لانچ</li>
-        <li><strong>15 ${monthNames[currentMonth]}:</strong> گاؤں کا سالانہ میلہ</li>
-        <li><strong>20 ${monthNames[currentMonth]}:</strong> گورنمنٹ گرلز سکول میں تعلیمی تقریب</li>
-    `;
+    document.getElementById('calendar-month').textContent = `${months[currentMonth]} 2025`;
 }
 
-function prevMonth() {
-    currentMonth--;
-    if (currentMonth < 0) {
-        currentMonth = 11;
-        currentYear--;
+function setupCalendar() {
+    const prevBtn = document.querySelector('.calendar-nav button:first-child');
+    const nextBtn = document.querySelector('.calendar-nav button:last-child');
+    
+    if (prevBtn && nextBtn) {
+        prevBtn.addEventListener('click', () => {
+            currentMonth = (currentMonth === 0) ? 11 : currentMonth - 1;
+            updateCalendar();
+        });
+        nextBtn.addEventListener('click', () => {
+            currentMonth = (currentMonth === 11) ? 0 : currentMonth + 1;
+            updateCalendar();
+        });
     }
     updateCalendar();
 }
 
-function nextMonth() {
-    currentMonth++;
-    if (currentMonth > 11) {
-        currentMonth = 0;
-        currentYear++;
+/* ---------- Chatbot System ---------- */
+function setupChatbot() {
+    const chatbotToggle = document.getElementById('chatbot-toggle');
+    const chatbot = document.getElementById('chatbot');
+    const closeChatbotBtn = document.getElementById('close-chatbot');
+    const chatbotInput = document.getElementById('chatbot-input');
+    const sendButton = document.getElementById('send-button');
+    const micButton = document.getElementById('mic-button');
+
+    // Load voices and set a male voice preference
+    let maleVoice = null;
+    const loadVoices = () => {
+        const voices = window.speechSynthesis.getVoices();
+        maleVoice = voices.find(voice => 
+            (voice.lang === 'ur-PK' || voice.lang === 'ur-IN') && 
+            (voice.name.includes('male') || voice.name.includes('Zira'))
+        );
+        if (!maleVoice) {
+            maleVoice = voices.find(voice => voice.lang.startsWith('ur'));
+        }
+    };
+    window.speechSynthesis.onvoiceschanged = loadVoices;
+    loadVoices();
+
+    if (chatbotToggle && chatbot) {
+        chatbotToggle.addEventListener('click', () => {
+            chatbot.classList.add('active');
+            speak('السلام علیکم! میں مانوپور چیٹ بوٹ ہوں۔ آپ کیسے مدد کر سکتا ہوں؟');
+        });
     }
-    updateCalendar();
-}
 
-updateCalendar();
-
-// نیوز فنکشن
-function addNews() {
-    const newsInput = document.getElementById('news-input').value;
-    if (newsInput) {
-        const newsList = document.getElementById('news-list');
-        const li = document.createElement('li');
-        li.textContent = newsInput;
-        newsList.appendChild(li);
-        document.getElementById('news-input').value = '';
+    if (closeChatbotBtn) {
+        closeChatbotBtn.addEventListener('click', () => {
+            chatbot.classList.remove('active');
+            window.speechSynthesis.cancel();
+        });
     }
-}
 
-// چیٹ بوٹ فنکشنز
-let isVoiceOn = false;
-let recognition = null;
+    if (sendButton) sendButton.addEventListener('click', sendMessage);
+    if (chatbotInput) chatbotInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') sendMessage();
+    });
+    if (micButton) micButton.addEventListener('click', startSpeechRecognition);
 
-function toggleVoice() {
-    isVoiceOn = !isVoiceOn;
-    const toggleButton = document.getElementById('toggle-voice');
-    toggleButton.textContent = isVoiceOn ? 'آواز بند' : 'آواز آن';
-    if (isVoiceOn) {
-        speak('سلام! میں مانوپور چیٹ بوٹ ہوں، آپ کیسے مدد کر سکتا ہوں؟');
+    // This data structure is now more comprehensive
+    const qaPairs = {
+        'greetings': ['سلام', 'اسلام علیکم', 'ہائے', 'ہیلو', 'آداب', 'assalam', 'asalamoalikum', 'as-salam'],
+        'location': ['مانوپور کہاں ہے', 'پنڈ کتھے اے', 'محل وقوع', 'پنڈ دی لوکیشن', 'مانوپور دا نقشہ', 'نقشہ', 'محل وقوع کی تفصیلات'],
+        'history': ['مانوپور کی تاریخ', 'پنڈ دی تریخ', 'تاریخی پس منظر', 'گاؤں کب بنا', 'کدو بنیا', 'قدیمی حالات'],
+        'personalities': ['مشہور شخصیات', 'پنڈ دے مشہور لوک', 'اہم بندے', 'نمبردار', 'ماسٹر', 'ڈاکٹر', 'فوجی'],
+        'shops': ['دکانیں', 'دوکاندار', 'بازار', 'کریانہ سٹور', 'جلیبی'],
+        'education': ['تعلیمی ادارے', 'سکول', 'گورنمنٹ سکول', 'تعلیم'],
+        'sports': ['کھیل', 'کبڈی', 'کھیت', 'کبڈی دا میچ'],
+        'contact': ['رابطہ', 'کنیکٹ', 'فون نمبر', 'ای میل', 'واٹس ایپ'],
+        'weather': ['موسم', 'آج کا موسم', 'موسم کیسا ہے'],
+        'events': ['ایونٹس', 'تقریبات', 'میلہ', 'کیلنڈر'],
+        'hospital': ['ہسپتال', 'ہیلتھ'],
+        'crops': ['فصلیں', 'کھیتی', 'گندم', 'گنا', 'چاول'],
+        'culture': ['ثقافتی تقریبات', 'میلہ', 'روایت', 'چوپال', 'ثقافت'],
+        'hospitality': ['مہمان نوازی', 'مہمان', 'دیسی کھانے', 'پکوڑے'],
+        'date-time': ['آج کی تاریخ', 'آج کا دن', 'کیا وقت ہوا ہے'],
+        'general': ['مانوپور کی معلومات', 'پنڈ بارے دسو', 'جانکاری', 'کچھ دسو', 'تسی کون او'],
+        'admin': ['نعیم حسن ڈوگر', 'ویب سائٹ دا اونر'],
+    };
+
+    const chatbotResponses = {
+        'greetings': ['وعلیکم السلام! مانوپور کی دنیا میں خوش آمدید۔ آپ کو کس بارے میں جاننا ہے؟', 'وعلیکم السلام! میں مانوپور کے بارے میں آپ کے سوالوں کا جواب دینے کے لیے حاضر ہوں۔', 'وعلیکم السلام! کیسے ہو؟ میں آپ کی کیا مدد کر سکتا ہوں؟'],
+        'location': () => document.getElementById('location').querySelector('p').textContent,
+        'history': () => document.getElementById('history').querySelector('p').textContent,
+        'personalities': () => document.getElementById('personalities').querySelector('p').textContent,
+        'shops': () => document.getElementById('shops').querySelector('p').textContent,
+        'education': () => document.getElementById('education').querySelector('p').textContent,
+        'sports': () => document.getElementById('sports').querySelector('p').textContent,
+        'contact': () => document.getElementById('contact').querySelector('ul').textContent.trim().replace(/\s{2,}/g, ' '),
+        'weather': () => {
+            const now = new Date();
+            const time = now.toLocaleTimeString('ur-PK', { hour: '2-digit', minute: '2-digit', hour12: true });
+            return `آج ${now.toLocaleDateString('ur-PK', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })} کو مانوپور میں موسم گرم اور مرطوب ہے، اور وقت شام ${time} بجے ہے۔`;
+        },
+        'events': () => document.getElementById('events').querySelector('p').textContent,
+        'hospital': () => document.getElementById('location').querySelector('p').textContent.split('.').find(s => s.includes('ہسپتال')),
+        'crops': () => document.getElementById('agriculture').querySelector('p').textContent.split('.').find(s => s.includes('فصلیں')),
+        'culture': () => document.getElementById('culture').querySelector('p').textContent,
+        'hospitality': () => document.getElementById('hospitality').querySelector('p').textContent,
+        'date-time': () => {
+            const now = new Date();
+            const date = now.toLocaleDateString('ur-PK', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+            const time = now.toLocaleTimeString('ur-PK', { hour: '2-digit', minute: '2-digit', hour12: true });
+            return `آج ${date} ہے، اور وقت شام ${time} بجے ہے۔`;
+        },
+        'general': 'میں آپ کے سوال کا جواب دینے کے لیے حاضر ہوں۔ آپ مانوپور کی تاریخ، ثقافت، تعلیم، کھیل، یا کسی بھی موضوع کے بارے میں پوچھ سکتے ہیں۔',
+        'admin': 'ویب سائٹ کے بنانے والے اور ایڈمن نعیم حسن ڈوگر ہیں، جن کا تعلق مانوپور سے ہے۔',
+    };
+
+    function sendMessage() {
+        const chatbotBody = document.getElementById('chatbot-body');
+        const message = chatbotInput.value.trim();
+        if (message === '') return;
+
+        // User message
+        chatbotBody.innerHTML += `<p class="user-message"><strong>آپ:</strong> ${message}</p>`;
+
+        let response = 'معاف کریں، میں اس سوال کو سمجھ نہ سکا۔ آپ دوبارہ کوشش کریں یا کوئی اور سوال پوچھیں!';
+        let isGreeting = false;
+        
+        // Normalize user input for better matching
+        const normalizedMessage = message.toLowerCase().replace(/[\u0600-\u06FF\s]+/, (match) => match.replace(/\s+/g, ' '));
+        
+        // Check for greetings first
+        if (qaPairs['greetings'].some(q => normalizedMessage.includes(q))) {
+            const greetingResponses = chatbotResponses['greetings'];
+            response = greetingResponses[Math.floor(Math.random() * greetingResponses.length)];
+            isGreeting = true;
+        }
+
+        // If not a greeting, find a contextual response
+        if (!isGreeting) {
+            for (const key in qaPairs) {
+                if (key === 'greetings') continue; // Skip greetings here
+                if (qaPairs[key].some(q => normalizedMessage.includes(q))) {
+                    const res = chatbotResponses[key];
+                    response = typeof res === 'function' ? res() : res;
+                    break;
+                }
+            }
+        }
+
+        // Append bot response
+        chatbotBody.innerHTML += `<p class="bot-message"><strong>بوٹ:</strong> ${response}</p>`;
+        chatbotBody.scrollTop = chatbotBody.scrollHeight;
+
+        // Clear input
+        chatbotInput.value = '';
+
+        // Speak response
+        speak(response);
     }
-}
 
-function speak(text) {
-    if ('speechSynthesis' in window && isVoiceOn) {
-        const utterance = new SpeechSynthesisUtterance(text);
-        utterance.lang = 'ur-PK'; // اردو کے لیے
-        utterance.rate = 0.9; // بھاری آواز
-        utterance.pitch = 0.8;
-        window.speechSynthesis.speak(utterance);
+    /* ---------- Voice and Speech Functions ---------- */
+    function speak(text) {
+        if ('speechSynthesis' in window) {
+            window.speechSynthesis.cancel(); // Stop any current speech
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'ur-PK';
+            if (maleVoice) {
+                utterance.voice = maleVoice;
+            }
+            utterance.volume = 1;
+            utterance.rate = 0.9;
+            utterance.pitch = 0.8;
+            window.speechSynthesis.speak(utterance);
+        }
     }
-}
 
-function startSpeechRecognition() {
-    if ('webkitSpeechRecognition' in window) {
-        recognition = new webkitSpeechRecognition();
+    function startSpeechRecognition() {
+        const micButton = document.getElementById('mic-button');
+        if (!('webkitSpeechRecognition' in window)) {
+            alert('معاف کریں، آپ کا براؤزر صوتی ان پٹ کو سپورٹ نہیں کرتا۔ براہ کرم ٹیکسٹ استعمال کریں۔');
+            return;
+        }
+        const recognition = new webkitSpeechRecognition();
         recognition.lang = 'ur-PK';
         recognition.interimResults = false;
         recognition.maxAlternatives = 1;
+        micButton.classList.add('active');
+        recognition.start();
 
         recognition.onresult = function(event) {
             const speechResult = event.results[0][0].transcript;
-            document.getElementById('chatbot-input').value = speechResult;
+            chatbotInput.value = speechResult;
             sendMessage();
+            micButton.classList.remove('active');
         };
 
         recognition.onerror = function(event) {
-            console.error('صوتی ان پٹ میں خرابی:', event.error);
+            console.error('صوتی شناخت میں خرابی: ', event.error);
+            micButton.classList.remove('active');
+            alert('صوتی شناخت میں خرابی ہوئی، براہ کرم دوبارہ کوشش کریں۔');
         };
 
-        recognition.start();
-        document.getElementById('mic-button').classList.add('active');
-    } else {
-        alert('صوتی ان پٹ آپ کے براؤزر میں سپورٹ شدہ نہیں۔ Chrome استعمال کریں۔');
+        recognition.onend = function() {
+            micButton.classList.remove('active');
+        };
     }
 }
-
-function sendMessage() {
-    const input = document.getElementById('chatbot-input').value;
-    if (input) {
-        const chatBody = document.getElementById('chatbot-body');
-        const userMessage = document.createElement('p');
-        userMessage.textContent = input;
-        userMessage.className = 'user-message';
-        chatBody.appendChild(userMessage);
-        chatBody.scrollTop = chatBody.scrollHeight;
-
-        // بوت کا جواب
-        let botResponse = '';
-        if (input.toLowerCase().includes('سلام')) {
-            botResponse = 'وا علیکم السلام! میں آپ کی کس طرح مدد کر سکتا ہوں؟';
-        } else if (input.toLowerCase().includes('تاریخ')) {
-            botResponse = 'مانوپور کی تاریخ 1887ء میں شروع ہوئی جب گوگیرہ برانچ نہر نے اسے زرخیز بنایا۔ مزید جاننے کے لیے ویب سائٹ کے "تاریخی پس منظر" سیکشن کو دیکھیں۔';
-        } else if (input.toLowerCase().includes('ثقافت')) {
-            botResponse = 'مانوپور کی ثقافت میں کبڈی، مساجد، اور روایتی کھانوں جیسے جلیبی شامل ہیں۔ مزید تفصیلات "مذہبی و ثقافتی پہلو" میں ملاحظہ کریں۔';
-        } else {
-            botResponse = 'معذرت، میں اس سوال کا جواب نہیں جانتا۔ براہ کرم کچھ اور پوچھیں یا "مدد" کہیں۔';
-        }
-
-        const botMessage = document.createElement('p');
-        botMessage.textContent = botResponse;
-        botMessage.className = 'bot-message';
-        chatBody.appendChild(botMessage);
-        chatBody.scrollTop = chatBody.scrollHeight;
-
-        if (isVoiceOn) {
-            speak(botResponse);
-        }
-
-        document.getElementById('chatbot-input').value = '';
-        if (recognition) {
-            recognition.stop();
-            document.getElementById('mic-button').classList.remove('active');
-        }
-    }
-}
-
-// اینیمیشنز
-const sections = document.querySelectorAll('.animate-section');
-const options = {
-    threshold: 0.1
-};
-
-const observer = new IntersectionObserver((entries, observer) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            entry.target.classList.add('visible');
-            observer.unobserve(entry.target);
-        }
-    });
-}, options);
-
-sections.forEach(section => {
-    observer.observe(section);
-});
