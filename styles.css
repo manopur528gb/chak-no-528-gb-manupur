@@ -1,324 +1,613 @@
 /* فونٹ لوڈ کریں */
 @font-face {
-    font-family: 'Noto Nastaliq Urdu';
-    src: url('https://fonts.cdnfonts.com/css/noto-nastaliq-urdu');
+    font-family: 'Jameel Noori Nastaleeq';
+    src: url('https://fonts.cdnfonts.com/s/288667/JameelNooriNastaleeq-Regular.woff2') format('woff2');
+    font-display: swap;
+}
+
+/* CSS متغیرات */
+:root {
+    --primary-green: #2e7d32;
+    --secondary-gold: #d4a017;
+    --accent-red: #b71c1c;
+    --light-gray: #f4f4f4;
+    --text-color: #333;
+    --white: #fff;
+    --dark-green: #1b5e20;
 }
 
 /* عمومی اسٹائلز */
 body {
-    font-family: 'Noto Nastaliq Urdu', sans-serif;
-    background-color: #f4f4f4;
-    color: #333;
+    font-family: 'Jameel Noori Nastaleeq', sans-serif;
+    background-color: var(--light-gray);
+    color: var(--text-color);
     margin: 0;
     padding: 0;
     direction: rtl;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+}
+
+ul, ol {
+    list-style: none;
+    padding: 0;
+}
+
+a {
+    text-decoration: none;
 }
 
 /* ہیڈر */
 header {
-    background: linear-gradient(90deg, #2e7d32, #d4a017);
-    padding: 20px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-    position: relative;
-    background-image: url('images/header_sky_fields.jpg');
-    background-size: cover;
-    background-position: center;
-}
-header::before {
-    content: '';
-    position: absolute;
+    background: linear-gradient(90deg, var(--primary-green), var(--secondary-gold));
+    padding: 10px 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    position: sticky;
     top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: inherit;
-    filter: blur(5px); /* دھندلا پن، 3px-10px کے درمیان ایڈجسٹ کریں */
-    z-index: 0;
+    z-index: 1000;
+    text-align: center;
+    transition: background 0.3s ease;
 }
-header .logo img, header nav, header .search-bar {
+
+header:hover {
+    background: linear-gradient(90deg, var(--dark-green), #f0c550);
+}
+
+.header-content {
     position: relative;
     z-index: 1;
 }
-.logo img {
-    max-width: 150px;
+
+.header-logo {
+    max-width: 100px;
     height: auto;
+    margin: 0 auto 5px;
+    transition: transform 0.3s ease;
 }
 
-/* نیویگیشن مینو */
-nav ul {
+.header-logo:hover {
+    transform: scale(1.1);
+}
+
+.header-title {
+    font-size: 1.5rem;
+    color: var(--white);
+    margin: 0 0 10px;
+    padding: 0;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+}
+
+nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 5px;
+}
+
+#nav-menu {
     list-style: none;
     padding: 0;
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
-}
-nav ul li {
-    margin: 0 15px;
-}
-nav ul li a {
-    color: white;
-    text-decoration: none;
-    font-size: 1.5rem;
-    transition: color 0.3s;
-}
-nav ul li a:hover {
-    color: #b71c1c;
-}
-.hamburger {
-    display: none;
-    font-size: 2rem;
-    cursor: pointer;
-    color: white;
+    margin: 0;
 }
 
-/* سرچ بار */
-.search-bar {
-    margin: 20px auto;
-    text-align: center;
+#nav-menu li {
+    margin: 0 10px;
 }
-.search-bar input {
-    padding: 10px;
-    width: 60%;
-    max-width: 400px;
-    border: 1px solid #ccc;
+
+#nav-menu li a {
+    color: var(--white);
+    text-decoration: none;
+    font-size: 1rem;
+    padding: 5px 10px;
+    display: block;
+    transition: all 0.3s ease;
     border-radius: 5px;
 }
-.search-bar button {
-    padding: 10px 20px;
-    background-color: #b71c1c;
-    color: white;
-    border: none;
-    border-radius: 5px;
+
+#nav-menu li a:hover,
+#nav-menu li a:focus {
+    color: var(--accent-red);
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.hamburger {
+    display: none;
+    font-size: 1.5rem;
     cursor: pointer;
-    transition: background-color 0.3s;
+    color: var(--white);
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    transition: color 0.3s ease;
 }
-.search-bar button:hover {
-    background-color: #d4a017;
+
+.hamburger:hover,
+.hamburger:focus {
+    color: var(--accent-red);
 }
 
 /* ہیرو سیکشن */
 .hero {
     position: relative;
     text-align: center;
-    color: white;
+    color: var(--white);
     margin-bottom: 40px;
+    flex: 1;
+    overflow: hidden;
 }
-.hero img {
+
+.hero-image-container {
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
-    max-height: 600px;
-    object-fit: cover;
-    aspect-ratio: 16/9;
+    height: 100%;
+    z-index: -2;
 }
+
+.hero-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(0.7) blur(2px);
+    transition: filter 0.5s ease;
+}
+
+.hero-image-container:hover .hero-image {
+    filter: brightness(0.8) blur(0);
+}
+
 .hero-overlay {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0,0,0,0.5);
+    background: rgba(0, 0, 0, 0.5);
+    z-index: -1;
 }
+
 .hero-text {
-    position: absolute;
+    position: relative;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background: rgba(0,0,0,0.7);
-    padding: 20px;
+    background: rgba(0, 0, 0, 0.7);
+    padding: 30px;
     border-radius: 10px;
+    will-change: transform, opacity;
+    max-width: 80%;
+    margin-top: 100px;
 }
-.hero-text h1, .hero-text h2 {
+
+.hero-text h1,
+.hero-text h2 {
     margin: 10px 0;
-    font-size: 2.8rem;
+    font-size: 2.5rem;
     text-align: right;
+    transition: color 0.3s ease;
 }
+
+.hero-text h1:hover,
+.hero-text h2:hover {
+    color: var(--secondary-gold);
+}
+
 .hero-text p {
-    font-size: 1.3rem;
+    font-size: 1.2rem;
     line-height: 1.8;
 }
 
 /* عمومی سیکشنز */
 section {
-    padding: 40px;
+    padding: 30px;
     margin: 20px auto;
     max-width: 1200px;
-    background: white;
+    background: var(--white);
     border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    border: 2px solid #d4a017;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border: 2px solid var(--secondary-gold);
     position: relative;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    will-change: opacity, transform;
 }
-section::before, section::after {
+
+section.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+section::before,
+section::after {
     content: '';
     position: absolute;
     width: 100%;
-    height: 20px;
-    background: url('images/phulkari_pattern.jpg') repeat-x;
+    height: 10px;
+    background: url('images/phulkari-pattern.webp') repeat-x;
+    background-size: contain;
 }
+
 section::before {
-    top: 0;
+    top: -5px;
 }
+
 section::after {
-    bottom: 0;
+    bottom: -5px;
 }
+
 section h2 {
-    font-size: 2.8rem;
-    color: #2e7d32;
+    font-size: 2.5rem;
+    color: var(--primary-green);
     text-align: right;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
+    text-shadow: 1px 1px 1px rgba(0,0,0,0.1);
 }
-section p, section ul {
-    font-size: 1.3rem;
+
+section p,
+section ul {
+    font-size: 1.2rem;
     line-height: 1.8;
-    color: #333;
+    text-align: justify;
 }
 
 /* گیلری */
 .gallery {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-    gap: 20px;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 15px;
+    margin: 15px 0;
 }
+
 .gallery img {
     width: 100%;
-    max-height: 400px;
-    object-fit: cover;
     aspect-ratio: 16/9;
-    border-radius: 10px;
-    transition: transform 0.3s;
+    object-fit: cover;
+    border-radius: 8px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: zoom-in;
 }
+
 .gallery img:hover {
     transform: scale(1.05);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
 }
+
 .full-width {
     width: 100%;
-    max-height: 600px;
-    object-fit: cover;
     aspect-ratio: 16/9;
-    border-radius: 10px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin: 10px 0;
+    transition: transform 0.3s ease;
+}
+
+.full-width:hover {
+    transform: scale(1.02);
 }
 
 /* کیلنڈر اور نیوز */
-.calendar, .news-form {
-    margin-top: 20px;
+.calendar,
+.news-form {
+    margin-top: 15px;
 }
-.calendar-nav button, .news-form button {
+
+.calendar-nav button,
+.news-form button {
     padding: 10px 20px;
-    background-color: #2e7d32;
-    color: white;
+    background-color: var(--primary-green);
+    color: var(--white);
     border: none;
     border-radius: 5px;
     cursor: pointer;
     margin: 5px;
-}
-.calendar-nav button:hover, .news-form button:hover {
-    background-color: #d4a017;
+    transition: background-color 0.3s ease;
 }
 
-/* چیٹ بوٹ */
-#chatbot {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    width: 300px;
-    background: #fff;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-    overflow: hidden;
+.calendar-nav button:hover,
+.calendar-nav button:focus,
+.news-form button:hover,
+.news-form button:focus {
+    background-color: var(--secondary-gold);
 }
-#chatbot-header {
-    background: #2e7d32;
-    color: white;
-    padding: 10px;
-    font-size: 1.5rem;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-.bot-icon {
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    object-fit: cover;
-    margin-left: 10px;
-    border: 3px solid #d4a017;
-    box-shadow: 0 0 10px rgba(212, 160, 23, 0.5);
-}
-#toggle-voice {
-    padding: 5px 10px;
-    background: #b71c1c;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    margin-right: 10px;
-}
-#toggle-voice:hover {
-    background: #d4a017;
-}
-#chatbot-body {
-    max-height: 300px;
-    overflow-y: auto;
-    padding: 10px;
-}
-#chatbot-body p {
-    margin: 5px 0;
-    padding: 8px;
-    border-radius: 5px;
-}
-.user-message {
-    background: #d4a017;
-    color: white;
-    text-align: right;
-}
-.bot-message {
-    background: #f4f4f4;
-    color: #333;
-}
-.chatbot-input-container {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 10px;
-}
-#chatbot-input {
-    width: calc(100% - 90px);
+
+.news-form input {
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
+    margin-right: 5px;
+    width: 70%;
+    font-family: inherit;
 }
-#mic-button {
+
+@media (max-width: 600px) {
+    .news-form input {
+        width: 60%;
+    }
+}
+
+/* مشہور شخصیات کے ٹیبل کیلئے اسٹائلنگ */
+.personalities-container {
+    overflow-x: auto;
+    max-height: 450px;
+    margin: 15px 0;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+}
+
+.personalities-container table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.personalities-container th,
+.personalities-container td {
+    padding: 12px 15px;
+    text-align: right;
+    border-bottom: 1px solid #ddd;
+    font-size: 1.1rem;
+}
+
+.personalities-container thead tr {
+    background-color: var(--primary-green);
+    color: var(--white);
+    font-size: 1.2rem;
+    position: sticky;
+    top: 0;
+}
+
+.personalities-container tbody tr:nth-child(even) {
+    background-color: var(--light-gray);
+}
+
+.personalities-container tbody tr:hover {
+    background-color: #f1f1f1;
+}
+
+@media (max-width: 600px) {
+    .personalities-container th,
+    .personalities-container td {
+        font-size: 0.9rem;
+        padding: 8px 10px;
+    }
+}
+
+/* چیٹ بوٹ */
+.chatbot-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1001;
+}
+
+#chatbot-toggle {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+#chatbot-toggle:hover {
+    transform: translateY(-5px);
+}
+
+.chatbot-text {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: var(--white);
+    background-color: var(--primary-green);
+    padding: 8px 15px;
+    border-radius: 20px;
+    white-space: nowrap;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    transition: background-color 0.3s ease;
+}
+
+.chatbot-text:hover {
+    background-color: var(--dark-green);
+}
+
+.chatbot-icon {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border: 3px solid var(--secondary-gold);
+    transition: all 0.3s ease;
+}
+
+#chatbot-toggle:hover .chatbot-icon {
+    transform: scale(1.05);
+    border-color: var(--accent-red);
+}
+
+.chatbot-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+#chatbot {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 350px;
+    height: 450px;
+    background: var(--white);
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    display: none;
+    flex-direction: column;
+    transform-origin: bottom right;
+    animation: fadeInScale 0.5s ease-out forwards;
+}
+
+#chatbot.active {
+    display: flex;
+}
+
+@keyframes fadeInScale {
+    from {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+#chatbot-header {
+    background: var(--primary-green);
+    color: var(--white);
     padding: 10px;
-    background: #b71c1c;
-    color: white;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+#close-chatbot {
+    background: transparent;
+    border: none;
+    color: var(--white);
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+#close-chatbot:hover {
+    color: var(--accent-red);
+}
+
+.header-text {
+    flex-grow: 1;
+    text-align: center;
+    font-weight: bold;
+}
+
+#chatbot-body {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding: 10px;
+    background: var(--light-gray);
+    display: flex;
+    flex-direction: column;
+}
+
+#chatbot-body p {
+    margin: 8px 0;
+    padding: 10px;
+    border-radius: 5px;
+    word-break: break-word;
+    font-size: 1rem;
+    line-height: 1.6;
+    animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.user-message {
+    background: var(--secondary-gold);
+    color: var(--white);
+    text-align: right;
+    direction: rtl;
+    align-self: flex-end;
+    max-width: 80%;
+}
+
+.bot-message {
+    background: var(--white);
+    color: var(--text-color);
+    text-align: right;
+    direction: rtl;
+    align-self: flex-start;
+    border: 1px solid #eee;
+    max-width: 80%;
+}
+
+.chatbot-input-container {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px;
+    border-top: 1px solid #ccc;
+    background: var(--white);
+}
+
+#chatbot-input {
+    flex-grow: 1;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+    font-family: inherit;
+    transition: border-color 0.3s ease;
+}
+
+#chatbot-input:focus {
+    border-color: var(--primary-green);
+}
+
+#mic-button,
+#send-button {
+    padding: 8px 12px;
+    background: var(--accent-red);
+    color: var(--white);
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    font-size: 1.2rem;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
 }
-#mic-button:hover {
-    background: #d4a017;
+
+#mic-button:hover,
+#mic-button:focus,
+#send-button:hover,
+#send-button:focus {
+    background: var(--secondary-gold);
 }
+
 #mic-button.active {
-    background: #2e7d32;
-}
-#chatbot button:not(#mic-button):not(#toggle-voice) {
-    padding: 10px;
-    background: #b71c1c;
-    color: white;
-    border: none;
-    border-radius: 5px;
-}
-#chatbot button:not(#mic-button):not(#toggle-voice):hover {
-    background: #d4a017;
+    background: var(--primary-green);
 }
 
 /* فوٹر */
 footer {
-    background: #2e7d32;
-    color: white;
+    background: var(--primary-green);
+    color: var(--white);
     text-align: center;
-    padding: 20px;
-    margin-top: 40px;
+    padding: 15px;
+    margin-top: auto;
+    border-top: 2px solid var(--secondary-gold);
+    font-size: 1rem;
+}
+
+.footer-logo {
+    max-width: 100px;
+    height: auto;
+    transition: transform 0.3s ease;
+    margin-top: 10px;
+}
+
+.footer-logo:hover {
+    transform: scale(1.1);
 }
 
 /* ریسپانسیو ڈیزائن */
@@ -326,32 +615,71 @@ footer {
     .hamburger {
         display: block;
     }
-    nav ul {
+    #nav-menu {
         display: none;
         flex-direction: column;
-        background: #2e7d32;
         position: absolute;
-        top: 70px;
-        left: 0;
-        width: 100%;
+        top: 100%;
+        right: 0;
+        width: 200px;
+        background: var(--primary-green);
+        border-radius: 5px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     }
-    nav ul.active {
+    #nav-menu.active {
         display: flex;
     }
-    .hero img {
-        max-height: 400px;
+    #nav-menu li {
+        margin: 5px 0;
+        width: 100%;
+    }
+    #nav-menu li a {
+        padding: 10px;
+        text-align: center;
+    }
+    .hero-text {
+        max-width: 90%;
+        padding: 20px;
     }
     .hero-text h1, .hero-text h2 {
-        font-size: 2rem;
+        font-size: 1.5rem;
+    }
+    .hero-text p {
+        font-size: 1rem;
     }
     .gallery img {
-        max-height: 300px;
+        height: 200px;
     }
     .full-width {
-        max-height: 400px;
+        height: 300px;
     }
-    #chatbot {
+    .chatbot-container {
         width: 90%;
         right: 5%;
+        bottom: 10px;
     }
+    #chatbot {
+        width: 100%;
+        height: 350px;
     }
+    #chatbot-toggle {
+        display: flex;
+        flex-direction: row;
+        gap: 10px;
+        justify-content: flex-end;
+        align-items: center;
+        width: 100%;
+    }
+    .chatbot-text {
+        font-size: 1rem;
+        padding: 6px 12px;
+    }
+    .chatbot-icon {
+        width: 80px;
+        height: 80px;
+    }
+    section {
+        margin: 10px auto;
+        padding: 15px;
+    }
+}
